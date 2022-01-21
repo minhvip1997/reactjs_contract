@@ -29,7 +29,7 @@ function Header(props) {
 
     const insertTextAtTheBeginning = (item) => {
         // Inserts bold, green text at the beginning of the content
-        console.log(props.htmlEditor.current.instance.getSelection(), "item");
+        // console.log(props.htmlEditor.current.instance.getSelection(), "item");
         props.htmlEditor.current.instance.insertText(
             props.htmlEditor.current.instance.getSelection().index,
           '<<'+item+'>>',
@@ -40,18 +40,33 @@ function Header(props) {
         );
       };
 
+      const insertTextAtTheViewName = (text) => {
+        console.log(text)
+        props.nameView(text)
+      };
+
+      const insertTextAtTheViewEmail = (text) => {
+        console.log(text)
+        props.emailView(text)
+      };
+
+      const insertTextAtTheViewPassword = (text) => {
+        console.log(text)
+        props.passwordView(text)
+      };
+
       const handleInputName=(e)=>{
-        console.log(e.target.value)
+        // console.log(e.target.value)
         setInputName(e.target.value)
       }
 
       const handleInputEmail=(e)=>{
-        console.log(e.target.value)
+        // console.log(e.target.value)
         setInputEmail(e.target.value)
       }
 
       const handleInputPassword=(e)=>{
-        console.log(e.target.value)
+        // console.log(e.target.value)
         setInputPassword(e.target.value)
       }
 
@@ -62,9 +77,9 @@ function Header(props) {
                 return(
                     
                     <li style={{style: "bold"}} key={item.id}>
-                    {item.name === 'ho_va_ten' ? <><input key={item.id} type="text" value={inputName} onChange={(e) => handleInputName(e)} /><button onClick={() => insertTextAtTheBeginning(item.name)}>{item.name}</button></>
-                     : item.name === 'email'? <><input key={item.id} type="text" value={inputEmail} onChange={(e) => handleInputEmail(e)} /><button onClick={() => insertTextAtTheBeginning(item.name)}>{item.name}</button></>
-                      : <><input key={item.id} type="text" value={inputPassword} onChange={(e) => handleInputPassword(e)} /><button onClick={() => insertTextAtTheBeginning(item.name)}>{item.name}</button></>}
+                    {item.name === 'ho_va_ten' ? <><input key={item.id} type="text" value={inputName} onChange={(e) => handleInputName(e)} /><button onClick={() => {insertTextAtTheBeginning(item.name); insertTextAtTheViewName(inputName)}}>{item.name}</button></>
+                     : item.name === 'email'? <><input key={item.id} type="text" value={inputEmail} onChange={(e) => handleInputEmail(e)} /><button onClick={() => {insertTextAtTheBeginning(item.name); insertTextAtTheViewEmail(inputEmail)}}>{item.name}</button></>
+                      : <><input key={item.id} type="text" value={inputPassword} onChange={(e) => handleInputPassword(e)} /><button onClick={() => {insertTextAtTheBeginning(item.name); insertTextAtTheViewPassword(inputPassword)}}>{item.name}</button></>}
                     
                     </li>
                 )

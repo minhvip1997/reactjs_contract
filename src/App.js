@@ -20,7 +20,10 @@ const App =()=>{
   const [editorValueType,setEditorValueType] = useState('html')
   const htmlEditor = useRef(null);
   const [data, setData] = useState([]);
-    const [attribute, setAttribute] = useState([]);
+  const [attribute, setAttribute] = useState([]);
+  const [inputName, setInputName] = useState('');
+  const [inputEmail, setInputEmail] = useState('');
+  const [inputPassword, setInputPassword] = useState('');
     useEffect(()=>{
         const loaddata=()=>{
             setData(listattr);
@@ -44,20 +47,32 @@ const App =()=>{
 
     setEditorValueType(e.value)
   }
-  const insertText=(item)=>{
-    htmlEditor.current.instance.insertText(
-      htmlEditor.current.instance.getSelection().index,
-      item,
-      {
-        bold: true,
-        color: "green",
-      }
-    );
-  }
+  // const insertText=(item)=>{
+  //   htmlEditor.current.instance.insertText(
+  //     htmlEditor.current.instance.getSelection().index,
+  //     item,
+  //     {
+  //       bold: true,
+  //       color: "green",
+  //     }
+  //   );
+  // }
+
+ const callbackFunctionName = (childData) => {
+    setInputName(childData);
+}
+
+const callbackFunctionEmail = (childData) => {
+  setInputEmail(childData);
+}
+
+const callbackFunctionPassword = (childData) => {
+  setInputPassword(childData);
+}
 
     return (
       <div className="widget-container">
-      <Header htmlEditor={htmlEditor}/>
+      <Header htmlEditor={htmlEditor} nameView={callbackFunctionName} emailView={callbackFunctionEmail} passwordView={callbackFunctionPassword}/>
         <HtmlEditor ref={htmlEditor}
           height={300}
           value={valueContent}
@@ -108,16 +123,17 @@ const App =()=>{
             <ButtonItem text="Markdown" />
           </ButtonGroup>
           <div className="value-content">
-            {valueContent}
+            {/* {valueContent} */}
+            <p>Hi</p>
+            <p>Ho_va_ten: {inputName}</p>
+            <p>Email: {inputEmail}</p>
+            <p>Password: {inputPassword}</p>
           </div>
         </div>
       </div>
     );
   
 
-    
-
-  
 }
 
 

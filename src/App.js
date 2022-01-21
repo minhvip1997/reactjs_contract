@@ -8,6 +8,7 @@ import { useState } from 'react/cjs/react.development';
 import Header from './component/header/header.js';
 
 import { useRef } from "react";
+import Edit_Header from './component/header/edit_header.js';
 
 const sizeValues = ['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt'];
 const fontValues = ['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana'];
@@ -124,10 +125,12 @@ const callbackFunctionPassword = (childData) => {
           </ButtonGroup>
           <div className="value-content">
             {/* {valueContent} */}
-            <p>Hi</p>
+            <Edit_Header name={inputName} email={inputEmail} password={inputPassword}/>
+            
+            {/* <p>Hi</p>
             <p>Ho_va_ten: {inputName}</p>
             <p>Email: {inputEmail}</p>
-            <p>Password: {inputPassword}</p>
+            <p>Password: {inputPassword}</p> */}
           </div>
         </div>
       </div>

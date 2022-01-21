@@ -13,6 +13,8 @@ window.config = {
     'react': 'npm:react@17.0.2/umd/react.development.js',
     'react-dom': 'npm:react-dom@17.0.2/umd/react-dom.development.js',
     'prop-types': 'npm:prop-types@15.7.2/prop-types.js',
+    'devextreme-showdown': 'npm:devextreme-showdown@1.0.1/dist/showdown.js',
+    'turndown': 'npm:turndown@7.0.0/lib/turndown.browser.umd.js',
     'rrule': 'npm:rrule@2.6.6/dist/es5/rrule.js',
     'luxon': 'npm:luxon@1.28.0/build/global/luxon.min.js',
     'es6-object-assign': 'npm:es6-object-assign@1.1.0',

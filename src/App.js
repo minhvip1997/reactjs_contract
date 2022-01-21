@@ -1,32 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import HtmlEditor, { Toolbar, MediaResizing, Item } from 'devextreme-react/html-editor';
-import CheckBox from 'devextreme-react/check-box';
+import HtmlEditor, { Toolbar, Item } from 'devextreme-react/html-editor';
+import ButtonGroup, { Item as ButtonItem } from 'devextreme-react/button-group';
 import { markup } from './data.js';
-import './style.css';
+import 'devextreme/ui/html_editor/converters/markdown';
+import { useState } from 'react/cjs/react.development';
+import Header from './component/header/header.js';
 
 const sizeValues = ['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt'];
 const fontValues = ['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana'];
-const headerValues = [false, 1, 2, 3, 4, 5];
+const defaultSelectedItemKeys = ['Html'];
 
-const App =()=> {
- 
+const App =()=>{
+  
 
-  const [isMultiline,setIsMultiline]  = useState(true);
-  const [content, setContent] = useState(markup());
+  const [valueContent, setValueContent] = useState(markup())
+  const [editorValueType,setEditorValueType] = useState('html')
 
-  const onChangeTitle = (e)=>{
-    console.log(e.target.value)
-    setContent(e.target.value)
+ const  valueChanged=(e)=> {
+
+    setValueContent(e.value);
   }
+  const valueTypeChanged=(e)=> {
+
+
+    setEditorValueType(e.value)
+  }
+
+
     return (
       <div className="widget-container">
+      <Header/>
         <HtmlEditor
-          height="725px"
-          
+          height={300}
+          value={valueContent}
+          valueType={editorValueType}
+          onValueChanged={(e)=>valueChanged(e)}
         >
-          <MediaResizing enabled={true} />
-          <Toolbar multiline={isMultiline}>
+        
+          <Toolbar>
             <Item name="undo" />
             <Item name="redo" />
             <Item name="separator" />
@@ -49,52 +61,31 @@ const App =()=> {
             <Item name="alignRight" />
             <Item name="alignJustify" />
             <Item name="separator" />
-            <Item name="orderedList" />
-            <Item name="bulletList" />
-            <Item name="separator" />
-            <Item
-              name="header"
-              acceptedValues={headerValues}
-            />
-            <Item name="separator" />
             <Item name="color" />
             <Item name="background" />
-            <Item name="separator" />
-            <Item name="link" />
-            <Item name="image" />
-            <Item name="separator" />
-            <Item name="clear" />
-            <Item name="codeBlock" />
-            <Item name="blockquote" />
-            <Item name="separator" />
-            <Item name="insertTable" />
-            <Item name="deleteTable" />
-            <Item name="insertRowAbove" />
-            <Item name="insertRowBelow" />
-            <Item name="deleteRow" />
-            <Item name="insertColumnLeft" />
-            <Item name="insertColumnRight" />
-            <Item name="deleteColumn" />
           </Toolbar>
         </HtmlEditor>
+
         <div className="options">
-          <div className="caption">Options</div>
-          <div className="option">
-            <CheckBox
-              text="Multiline toolbar"
-              value={isMultiline}
-              onValueChanged={()=>multilineChanged()}
-            />
+          <ButtonGroup
+            onSelectionChanged={(e)=>valueTypeChanged()}
+            defaultSelectedItemKeys={defaultSelectedItemKeys}
+          >
+            <ButtonItem text="Html" />
+            <ButtonItem text="Markdown" />
+          </ButtonGroup>
+          <div className="value-content">
+            {valueContent}
           </div>
         </div>
       </div>
     );
-  };
- const multilineChanged = (e)=> {
-    this.setState({
-      isMultiline: e.value,
-    });
-  }
+  
+
+  
+
+  
+}
 
 
 export default App;

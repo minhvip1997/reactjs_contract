@@ -25,6 +25,7 @@ const App =()=>{
   const [inputName, setInputName] = useState('');
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
+  const [result, setResult] = useState('')
     useEffect(()=>{
         const loaddata=()=>{
             setData(listattr);
@@ -34,9 +35,9 @@ const App =()=>{
     },[])
 
     const listattr = [
-        {id: "1", name: "ho_va_ten", thuoctinh_id: "1"},
-        {id: "2", name: "email", thuoctinh_id: "1"},
-        {id: "3", name: "password", thuoctinh_id: "1"},
+        {id: "1", name: "{{ho_va_ten}}", thuoctinh_id: "1"},
+        {id: "2", name: "{{email}}", thuoctinh_id: "1"},
+        {id: "3", name: "{{password}}", thuoctinh_id: "1"},
     ]
 
  const  valueChanged=(e)=> {
@@ -48,6 +49,45 @@ const App =()=>{
 
     setEditorValueType(e.value)
   }
+
+  const getResult = (obj) => {
+    // console.log(rvalueContent.replace('{{ho_va_ten}}', name))
+    // setResult(valueContent.replace('{{ho_va_ten}}', name))
+    // setResult(valueContent.replace('{{email}}', email))
+    // setResult(valueContent.replace('{{password}}', password))
+    // const newState = valueContent.replace('{{ho_va_ten}}', name);
+    // setResult(valueContent => {
+    //   if(valueContent.search('{{ho_va_ten}}')){
+    //     //  console.log(valueContent)
+        
+    //   }
+
+    // });
+    console.log(obj)
+
+    let copyContent = valueContent;
+    // console.log(copyContent)
+    for(let i = 0; i < listattr.length; i++){
+      let value = listattr[i].name.replace("{{", "");
+      value = value.replace("}}", "");
+
+      console.log(listattr[i])
+      copyContent = copyContent.replace(listattr[i].name, obj[value])
+      
+      
+      
+    }
+    // console.log(copyContent)
+    setResult(copyContent);
+    
+
+    
+    // console.log(newState)
+    
+    
+
+  }
+// console.log(result)
   // const insertText=(item)=>{
   //   htmlEditor.current.instance.insertText(
   //     htmlEditor.current.instance.getSelection().index,
@@ -73,7 +113,7 @@ const callbackFunctionPassword = (childData) => {
 
     return (
       <div className="widget-container">
-      <Header htmlEditor={htmlEditor} nameView={callbackFunctionName} emailView={callbackFunctionEmail} passwordView={callbackFunctionPassword}/>
+      <Header getResult={getResult} htmlEditor={htmlEditor} nameView={callbackFunctionName} emailView={callbackFunctionEmail} passwordView={callbackFunctionPassword}/>
         <HtmlEditor ref={htmlEditor}
           height={300}
           value={valueContent}
@@ -125,8 +165,8 @@ const callbackFunctionPassword = (childData) => {
           </ButtonGroup>
           <div className="value-content">
             {/* {valueContent} */}
-            <Edit_Header name={inputName} email={inputEmail} password={inputPassword}/>
-            
+            {/* <Edit_Header name={inputName} email={inputEmail} password={inputPassword}/> */}
+            <HtmlEditor  value={result === "" ? valueContent : result}></HtmlEditor>   
             {/* <p>Hi</p>
             <p>Ho_va_ten: {inputName}</p>
             <p>Email: {inputEmail}</p>

@@ -32,7 +32,7 @@ function Header(props) {
         // console.log(props.htmlEditor.current.instance.getSelection(), "item");
         props.htmlEditor.current.instance.insertText(
             props.htmlEditor.current.instance.getSelection().index,
-          '<<'+item+'>>',
+          '{{'+item+'}}',
           {
             bold: true,
             color: "green",
@@ -54,6 +54,16 @@ function Header(props) {
         console.log(text)
         props.passwordView(text)
       };
+
+      const insertAllData=(name, email,password)=>{
+        // console.log(name,email,password)
+        // props.getResult(name, email, password)
+        props.getResult({
+          "ho_va_ten": name,
+          "email": email,
+          "password": password
+        })
+      }
 
       const handleInputName=(e)=>{
         // console.log(e.target.value)
@@ -77,15 +87,23 @@ function Header(props) {
                 return(
                     
                     <li style={{style: "bold"}} key={item.id}>
-                    {item.name === 'ho_va_ten' ? <><input key={item.id} type="text" value={inputName} onChange={(e) => handleInputName(e)} /><button onClick={() => {insertTextAtTheBeginning(item.name); insertTextAtTheViewName(inputName)}}>{item.name}</button></>
-                     : item.name === 'email'? <><input key={item.id} type="text" value={inputEmail} onChange={(e) => handleInputEmail(e)} /><button onClick={() => {insertTextAtTheBeginning(item.name); insertTextAtTheViewEmail(inputEmail)}}>{item.name}</button></>
-                      : <><input key={item.id} type="text" value={inputPassword} onChange={(e) => handleInputPassword(e)} /><button onClick={() => {insertTextAtTheBeginning(item.name); insertTextAtTheViewPassword(inputPassword)}}>{item.name}</button></>}
+                    {item.name === 'ho_va_ten' ?<button onClick={() => {insertTextAtTheBeginning(item.name)}}>{item.name}</button>
+                     : item.name === 'email'? <button onClick={() => {insertTextAtTheBeginning(item.name)}}>{item.name}</button>
+                      : <button onClick={() => {insertTextAtTheBeginning(item.name)}}>{item.name}</button>}
                     
                     </li>
                 )
             })}
+            <div>
+            <input  type="text" value={inputName} onChange={(e) => handleInputName(e)} />
+            <input  type="text" value={inputEmail} onChange={(e) => handleInputEmail(e)} />
+            <input  type="text" value={inputPassword} onChange={(e) => handleInputPassword(e)} />
+            <button  onClick={()=>insertAllData(inputName,inputEmail,inputPassword)}>ok</button>
+            </div>
         </div>
     );
+
+
 }
 
 export default Header;

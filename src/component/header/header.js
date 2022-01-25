@@ -13,23 +13,54 @@ function Header(props) {
     const [inputName, setInputName] = useState('');
     const [inputEmail, setInputEmail] = useState('');
     const [inputPassword, setInputPassword] = useState('');
+    const [employee,setEmployee] = useState([]);
+    const [id, setId] = useState(1);
     // console.log(props)
     useEffect(()=>{
         const loaddata=()=>{
             setData(listattr);
         }
         loaddata();
-    },[])
+        const url = "http://localhost:8000/user";
+    
+        const fetchData = async () => {
+          try {
+            const response = await fetch(url);
+            const json = await response.json();
+            setEmployee(json);
+            console.log(json);
+          } catch (error) {
+            console.log("error", error);
+          }
+        };
+    
+        fetchData();
+        const url2 = `http://localhost:8000/user/${id}`;
+        const fetchData2 = async () => {
+          try {
+            const response = await fetch(url2);
+            const json = await response.json();
+            setInputName(json.name);
+            setInputEmail(json.email);
+            setInputPassword(json.age);
+            // setEmployee(json);
+            console.log(json);
+          } catch (error) {
+            console.log("error", error);
+          }
+        };
+    
+        fetchData2();
+        
+    },[id])
 
     const listattr = [
         {id: "1", name: "ho_va_ten", thuoctinh_id: "1"},
         {id: "2", name: "email", thuoctinh_id: "1"},
-        {id: "3", name: "password", thuoctinh_id: "1"},
+        {id: "3", name: "age", thuoctinh_id: "1"},
     ]
 
     const insertTextAtTheBeginning = (item) => {
-        // Inserts bold, green text at the beginning of the content
-        // console.log(props.htmlEditor.current.instance.getSelection(), "item");
         props.htmlEditor.current.instance.insertText(
             props.htmlEditor.current.instance.getSelection().index,
           '{{'+item+'}}',
@@ -56,33 +87,47 @@ function Header(props) {
       };
 
       const insertAllData=(name, email,password)=>{
-        // console.log(name,email,password)
-        // props.getResult(name, email, password)
         props.getResult({
           "ho_va_ten": name,
           "email": email,
-          "password": password
+          "age": password
         })
       }
 
       const handleInputName=(e)=>{
-        // console.log(e.target.value)
+
         setInputName(e.target.value)
       }
 
       const handleInputEmail=(e)=>{
-        // console.log(e.target.value)
+
         setInputEmail(e.target.value)
       }
 
       const handleInputPassword=(e)=>{
-        // console.log(e.target.value)
+
         setInputPassword(e.target.value)
+      }
+
+      const handleChangeEmployee =(e)=>{
+        console.log()
+        const idchoose = e.target.value;
+        setId(idchoose);
+        
       }
 
 
     return (
         <div className="header">
+        <div>
+        <select  className="active" onChange={(e)=>handleChangeEmployee(e)}>
+            {employee.length>0 && employee.map((item,index)=>{
+                return(
+                    <option value={item.id}>{item.name}</option>
+                )
+            })}
+            </select>
+        </div>
             {data.length>0 && data.map((item,index)=>{
                 return(
                     

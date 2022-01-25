@@ -5,6 +5,7 @@ import { markup } from './../data';
 import 'devextreme/ui/html_editor/converters/markdown';
 import { useState } from 'react/cjs/react.development';
 import Header from './../component/header/header';
+import './Contract.css';
 
 import { useRef } from "react";
 import Edit_Header from './../component/header/edit_header';
@@ -24,7 +25,7 @@ const fontValues = ['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console
 const defaultSelectedItemKeys = ['Html'];
 
 function Contract(props) {
-    const [valueContent, setValueContent] = useState(markup())
+  const [valueContent, setValueContent] = useState('');
   const [editorValueType,setEditorValueType] = useState('html')
   const htmlEditor = useRef(null);
   const [data, setData] = useState([]);
@@ -34,33 +35,51 @@ function Contract(props) {
   const [inputPassword, setInputPassword] = useState('');
   const [result, setResult] = useState('');
   const [contract, setContract] = useState([]);
+  const [id, setId] = useState(1);
     useEffect(()=>{
         const loaddata=()=>{
             setData(listattr);
         }
         loaddata();
 
-        const url = "http://localhost:8000/user";
+        const url = "http://localhost:8000/contract";
     
         const fetchData = async () => {
           try {
             const response = await fetch(url);
             const json = await response.json();
             setContract(json);
-            console.log(json);
+            // console.log(json);
           } catch (error) {
             console.log("error", error);
           }
         };
     
         fetchData();
-        // console.log(data)
-    },[])
+
+        const url2 = `http://localhost:8000/contract/${id}`;
+
+        const fetchData2 = async () => {
+          try {
+            const response = await fetch(url2);
+            const json = await response.json();
+            setValueContent(json.content);
+            valueChanged(json.content)
+
+          } catch (error) {
+            console.log("error", error);
+          }
+        };
+    
+        fetchData2();
+        
+    },[id])
+
 
     const listattr = [
         {id: "1", name: "{{ho_va_ten}}", thuoctinh_id: "1"},
         {id: "2", name: "{{email}}", thuoctinh_id: "1"},
-        {id: "3", name: "{{password}}", thuoctinh_id: "1"},
+        {id: "3", name: "{{age}}", thuoctinh_id: "1"},
     ]
 
  const  valueChanged=(e)=> {
@@ -94,6 +113,13 @@ function Contract(props) {
     
   }
 
+ 
+  const handleChangeContract=(e)=>{
+    const idchoose = e.target.value;
+    setId(idchoose);
+        
+  }
+
 
  const callbackFunctionName = (childData) => {
     setInputName(childData);
@@ -109,10 +135,11 @@ const callbackFunctionPassword = (childData) => {
     return (
         <div className="widget-container">
         <div>
-            <select value={contract} className="active">
+        <p>Loai Hop Dong</p>
+            <select   className="select" onChange={(e)=>handleChangeContract(e)}>
             {contract.length>0 && contract.map((item,index)=>{
                 return(
-                    <option  key={item.id} >{item.name}</option>
+                    <option  key={item.id} value={item.id}>{item.name}</option>
                 )
             })}
             </select>
@@ -168,13 +195,7 @@ const callbackFunctionPassword = (childData) => {
             <ButtonItem text="Markdown" />
           </ButtonGroup>
           <div className="value-content">
-            {/* {valueContent} */}
-            {/* <Edit_Header name={inputName} email={inputEmail} password={inputPassword}/> */}
             <HtmlEditor  value={result === "" ? valueContent : result}></HtmlEditor>   
-            {/* <p>Hi</p>
-            <p>Ho_va_ten: {inputName}</p>
-            <p>Email: {inputEmail}</p>
-            <p>Password: {inputPassword}</p> */}
           </div>
         </div>
       </div>

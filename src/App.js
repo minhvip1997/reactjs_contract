@@ -6,9 +6,18 @@ import { markup } from './data.js';
 import 'devextreme/ui/html_editor/converters/markdown';
 import { useState } from 'react/cjs/react.development';
 import Header from './component/header/header.js';
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import { useRef } from "react";
 import Edit_Header from './component/header/edit_header.js';
+import Contract from './Contract/Contract.js';
+import Nav from './component/Nav/Nav.js';
+import Employee from './Employee/Employee.js';
+import CreateEmployee from './Employee/CreateEmployee.js';
 
 const sizeValues = ['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt'];
 const fontValues = ['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana'];
@@ -112,68 +121,26 @@ const callbackFunctionPassword = (childData) => {
 }
 
     return (
+      <Router>
       <div className="widget-container">
-      <Header getResult={getResult} htmlEditor={htmlEditor} nameView={callbackFunctionName} emailView={callbackFunctionEmail} passwordView={callbackFunctionPassword}/>
-        <HtmlEditor ref={htmlEditor}
-          height={300}
-          value={valueContent}
-          valueType={editorValueType}
-          onValueChanged={(e)=>valueChanged(e)}
-        >
-        
-          <Toolbar>
-            <Item name="undo" />
-            <Item name="redo" />
-            <Item name="separator" />
-            <Item
-              name="size"
-              acceptedValues={sizeValues}
-            />
-            <Item
-              name="font"
-              acceptedValues={fontValues}
-            />
-            <Item name="separator" />
-            <Item name="bold" />
-            <Item name="italic" />
-            <Item name="strike" />
-            <Item name="underline" />
-            <Item name="separator" />
-            <Item name="alignLeft" />
-            <Item name="alignCenter" />
-            <Item name="alignRight" />
-            <Item name="alignJustify" />
-            <Item name="separator" />
-            <Item name="color" />
-            <Item name="background" />
-            {/* <Item>{data.map((item,index)=>{
-              return(<li key={item.id} onClick={()=>insertText(item.name)}>{item.name}</li>);
-            })}</Item> */}
-          </Toolbar>
-          
-        </HtmlEditor>
-
-        
-
-        <div className="options">
-          <ButtonGroup
-            onSelectionChanged={(e)=>valueTypeChanged()}
-            defaultSelectedItemKeys={defaultSelectedItemKeys}
-          >
-            <ButtonItem text="Html" />
-            <ButtonItem text="Markdown" />
-          </ButtonGroup>
-          <div className="value-content">
-            {/* {valueContent} */}
-            {/* <Edit_Header name={inputName} email={inputEmail} password={inputPassword}/> */}
-            <HtmlEditor  value={result === "" ? valueContent : result}></HtmlEditor>   
-            {/* <p>Hi</p>
-            <p>Ho_va_ten: {inputName}</p>
-            <p>Email: {inputEmail}</p>
-            <p>Password: {inputPassword}</p> */}
-          </div>
-        </div>
+      <Nav/>
+      <Switch>
+          <Route path="/" exact>
+          <Contract/>
+          </Route>
+          <Route path="/contract">
+          <Contract/>
+          </Route>
+          <Route path="/employee" exact>
+          <Employee/>
+          </Route>
+          <Route path="/employee/add">
+          <CreateEmployee/>
+          </Route>
+        </Switch>
+      
       </div>
+      </Router>
     );
   
 

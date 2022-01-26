@@ -35,7 +35,7 @@ const Employee=(props)=> {
             })}
             </select>
             <table>
-            {/* <button>Create</button> */}
+
             <NavLink to="/employee/add" activeClassName="selected">
                 <button>Add Employee</button>
             </NavLink>
@@ -46,17 +46,27 @@ const Employee=(props)=> {
                 <th>Email</th>
                 <th>Image</th>
             </tr>
-            <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
-                <td>Germany</td>
-                <td>Germany</td>
-                <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
+            {employee.length> 0 && employee.map((item,index)=>{
+                return(
+                    <>
+                    <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.name}</td>
+                    <td>{item.age}</td>
+                    <td>{item.email}</td>
+                    <td>{item.image}</td>
+                    <td>
+                        <NavLink to="/contract" activeClassName="selected">
+                        <button>Add Contract</button>
+                        </NavLink>
+                    </td>
+                    </tr>
+                    </>
+                )
+            })}
+            
+                
+            
             </table>
         </div>
     );

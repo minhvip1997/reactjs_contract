@@ -8,7 +8,7 @@ function Nav(props) {
             <Link activeClassName="active" to="/" exact={true}>Home</Link>
             <Link to="/employee">Employee</Link>
             <Link to="/contract">Contact</Link>
-            <Link to="/about">About</Link>
+            <Link to="/contract/all">All Contract</Link>
         </div>
     );
 }

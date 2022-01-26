@@ -19,6 +19,7 @@ import Nav from './component/Nav/Nav.js';
 import Employee from './Employee/Employee.js';
 import CreateEmployee from './Employee/CreateEmployee.js';
 import AllContract from './Contract/AllContract.js';
+import EditContract from './Contract/EditContract.js';
 
 const sizeValues = ['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt'];
 const fontValues = ['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana'];
@@ -140,6 +141,9 @@ const callbackFunctionPassword = (childData) => {
           </Route>
           <Route path="/contract/all">
           <AllContract/>
+          </Route>
+          <Route path="/contract/edit/:id">
+          <EditContract/>
           </Route>
         </Switch>
       

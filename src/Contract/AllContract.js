@@ -39,7 +39,9 @@ function AllContract(props) {
                         <td>{item.id}</td>
                         <td>{item.name}</td>
                         <td>
+                        <NavLink to={`/contract/edit/${item.id}`} activeClassName="selected">
                             <button>Edit Contract</button>
+                        </NavLink>
                             <button>Delete Contract</button>
                         </td>
                     </tr>

@@ -6,6 +6,8 @@ import './Employee.css';
 const Employee=(props)=> {
 
     const [employee,setEmployee] = useState([]);
+    const [entitytype, setEntitytype] = useState(0);
+    const [entityvalue, setEntityvalue] = useState(0);
 
     useEffect(() => {
         const url = "http://localhost:8000/user";
@@ -24,10 +26,12 @@ const Employee=(props)=> {
         fetchData();
     }, []);
 
+    
+
     // console.log(employee)
     return (
         <div>
-            <select value={employee} className="active">
+            <select value={employee} className="active" >
             {employee.length>0 && employee.map((item,index)=>{
                 return(
                     <option value="A">{item.name}</option>

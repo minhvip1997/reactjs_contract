@@ -18,6 +18,7 @@ import {
 } from "react-router-dom";
 import { BrowserRouter } from 'react-router-dom/cjs/react-router-dom.min';
 import Employee from '../Employee/Employee';
+import axios from 'axios';
 
 
 const sizeValues = ['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt'];
@@ -36,6 +37,7 @@ function Contract(props) {
   const [result, setResult] = useState('');
   const [contract, setContract] = useState([]);
   const [id, setId] = useState(1);
+  const [idemployee, setIdemployee] = useState(1);
     useEffect(()=>{
         const loaddata=()=>{
             setData(listattr);
@@ -65,7 +67,7 @@ function Contract(props) {
             const json = await response.json();
             setValueContent(json.content);
             valueChanged(json.content)
-
+            // console.log(json.content)
           } catch (error) {
             console.log("error", error);
           }
@@ -73,7 +75,7 @@ function Contract(props) {
     
         fetchData2();
         
-    },[id])
+    },[id,idemployee])
 
 
     const listattr = [
@@ -94,7 +96,8 @@ function Contract(props) {
 
   const getResult = (obj) => {
     
-    console.log(obj)
+    console.log(obj);
+    setIdemployee(obj.id);
 
     let copyContent = valueContent;
 
@@ -131,6 +134,34 @@ const callbackFunctionEmail = (childData) => {
 
 const callbackFunctionPassword = (childData) => {
   setInputPassword(childData);
+}
+
+const onClickCreateContract = async (e, content,id,idemployee)=>{
+// console.log(content);
+// console.log(id);
+// console.log(idemployee);
+
+e.preventDefault();
+
+  const newcontract = {
+    content: content,
+    idcontract: id,
+    idemployee: idemployee,
+  }
+
+  setValueContent('');
+  setId(1);
+  setIdemployee(1);
+
+  return await axios.post('http://localhost:8000/employeecontract/add', newcontract)
+        .then(res => {
+            console.log(res);
+            console.log(res.data);
+          })
+        .catch(function (error) {
+            console.log(error);
+          });
+
 }
     return (
         <div className="widget-container">
@@ -195,7 +226,10 @@ const callbackFunctionPassword = (childData) => {
             <ButtonItem text="Markdown" />
           </ButtonGroup>
           <div className="value-content">
-            <HtmlEditor  value={result === "" ? valueContent : result}></HtmlEditor>   
+            <HtmlEditor  value={result === "" ? valueContent : result}>
+            
+            </HtmlEditor>   
+            <button className="createContract" onClick={(e)=>onClickCreateContract(e,result,id,idemployee)}>ok</button>
           </div>
         </div>
       </div>

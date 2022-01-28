@@ -28,7 +28,7 @@ function Header(props) {
             const response = await fetch(url);
             const json = await response.json();
             setEmployee(json);
-            console.log(json);
+            // console.log(json);
           } catch (error) {
             console.log("error", error);
           }
@@ -44,7 +44,7 @@ function Header(props) {
             setInputEmail(json.email);
             setInputPassword(json.age);
             // setEmployee(json);
-            console.log(json);
+            // console.log(json);
           } catch (error) {
             console.log("error", error);
           }
@@ -86,11 +86,12 @@ function Header(props) {
         props.passwordView(text)
       };
 
-      const insertAllData=(name, email,password)=>{
+      const insertAllData=(name, email,password,id)=>{
         props.getResult({
           "ho_va_ten": name,
           "email": email,
-          "age": password
+          "age": password,
+          "id":id
         })
       }
 
@@ -143,7 +144,7 @@ function Header(props) {
             <input  type="text" value={inputName} onChange={(e) => handleInputName(e)} />
             <input  type="text" value={inputEmail} onChange={(e) => handleInputEmail(e)} />
             <input  type="text" value={inputPassword} onChange={(e) => handleInputPassword(e)} />
-            <button  onClick={()=>insertAllData(inputName,inputEmail,inputPassword)}>ok</button>
+            <button  onClick={()=>insertAllData(inputName,inputEmail,inputPassword,id)}>ok</button>
             </div>
         </div>
     );

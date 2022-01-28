@@ -20,7 +20,7 @@ function ListAttribute(props) {
             const response = await fetch(url);
             const json = await response.json();
             setAttribute(json);
-
+            // console.log(json)
           } catch (error) {
             console.log("error", error);
           }
@@ -28,37 +28,40 @@ function ListAttribute(props) {
     
         fetchData();
 
-        const url2 = "http://localhost:8000/typeentity";
-        
-    
-        const fetchData2 = async () => {
+    },[attribute])
+
+    useEffect(()=>{
+      const url2 = "http://localhost:8000/typeentity";
+      const fetchData2 = async () => {
+        try {
+          const response = await fetch(url2);
+          const json2 = await response.json();
+          setTypeentity(json2);
+
+        } catch (error) {
+          console.log("error", error);
+        }
+      };
+  
+      fetchData2();
+    },[typeentity]);
+
+    useEffect(()=>{
+      const url3 = "http://localhost:8000/typevalue";
+
+      const fetchData3 = async () => {
           try {
-            const response = await fetch(url2);
-            const json2 = await response.json();
-            setTypeentity(json2);
+            const response = await fetch(url3);
+            const json3 = await response.json();
+            setTypevalue(json3);
 
           } catch (error) {
             console.log("error", error);
           }
         };
     
-        fetchData2();
-
-        const url3 = "http://localhost:8000/typevalue";
-
-        const fetchData3 = async () => {
-            try {
-              const response = await fetch(url3);
-              const json3 = await response.json();
-              setTypevalue(json3);
-
-            } catch (error) {
-              console.log("error", error);
-            }
-          };
-      
-          fetchData3();
-    },[typevalueinput,typeentityinput,attribute])
+        fetchData3();
+    },[typevalue])
 
     const onChangeValueTypeValue=(e)=>{
 
@@ -76,7 +79,7 @@ function ListAttribute(props) {
     }
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
+        event.preventDefault(); 
     
         const attribute = {
           label: String(label),
@@ -100,6 +103,8 @@ function ListAttribute(props) {
         .catch(function (error) {
             console.log(error);
           });
+
+
           
       }
 
@@ -115,7 +120,7 @@ function ListAttribute(props) {
                 <select className="typeentity"  id="cars" onChange={(e)=>onChangeValueTypeEntity(e)}>
                 {typeentity.length>0 && typeentity.map((item,index)=>{
                     return(
-                        <option value={item.id}>{item.name}</option>
+                        <option value={item.id} key={item.id}>{item.name}</option>
                     )
                 })}
                 </select><br/><br/>
@@ -123,7 +128,7 @@ function ListAttribute(props) {
                 <select className="typevalue"  id="cars" onChange={(e)=>onChangeValueTypeValue(e)}>
                 {typevalue.length>0 && typevalue.map((item,index)=>{
                     return(
-                        <option value={item.id}>{item.type}</option>
+                        <option value={item.id} key={item.id}>{item.type}</option>
                     )
                 })}
                 </select><br/><br/>
@@ -133,7 +138,7 @@ function ListAttribute(props) {
         </div>
 
         <div className="split right">
-        <div classname="centered">
+        <div className="centered">
 
         <h2>Table Attribute</h2>
 

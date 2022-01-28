@@ -7,3 +7,10 @@ p {
     text-align: center; 
     font-weight: bold;
 }
+
+.value-content .createContract{
+    width: 75%;
+    height: 50px;
+    left: 200px;
+    background-color: red;
+}

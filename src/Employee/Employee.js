@@ -63,6 +63,9 @@ const Employee=(props)=> {
                         <NavLink to="/contract" activeClassName="selected">
                         <button>Add Contract</button>
                         </NavLink>
+                        <NavLink to={`/contract/usershow/${item.id}`}  activeClassName="selected">
+                        <button>Show All Contract</button>
+                        </NavLink>
                     </td>
                     </tr>
                     </>

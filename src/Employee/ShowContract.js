@@ -1,48 +1,45 @@
 import React from 'react';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
-import './ShowContract.css';    
+import './ShowContract.css';   
+import { useEffect, useState } from 'react/cjs/react.development'; 
 
 function ShowContract(props) {
     const{id} = useParams();
+    const [contractdetail, setContractdetail] = useState([]);
+
+    useEffect(()=>{
+    const url3 = `http://localhost:8000/employeecontract/${id}`;
+
+      const fetchData3 = async () => {
+          try {
+            const response = await fetch(url3);
+            const json3 = await response.json();
+            setContractdetail(json3.employeecontracts);
+            console.log(json3)
+
+          } catch (error) {
+            console.log("error", error);
+          }
+        };
+    
+        fetchData3();
+    },[])
     
     return (
         <div>
             <table>
             <tr>
-                <th>Company</th>
-                <th>Contact</th>
-                <th>Country</th>
+                <th>Id</th>
+                <th>Name Type Contract</th>
             </tr>
-            <tr>
-                <td>Alfreds Futterkiste</td>
-                <td>Maria Anders</td>
-                <td>Germany</td>
-            </tr>
-            <tr>
-                <td>Centro comercial Moctezuma</td>
-                <td>Francisco Chang</td>
-                <td>Mexico</td>
-            </tr>
-            <tr>
-                <td>Ernst Handel</td>
-                <td>Roland Mendel</td>
-                <td>Austria</td>
-            </tr>
-            <tr>
-                <td>Island Trading</td>
-                <td>Helen Bennett</td>
-                <td>UK</td>
-            </tr>
-            <tr>
-                <td>Laughing Bacchus Winecellars</td>
-                <td>Yoshi Tannamuri</td>
-                <td>Canada</td>
-            </tr>
-            <tr>
-                <td>Magazzini Alimentari Riuniti</td>
-                <td>Giovanni Rovelli</td>
-                <td>Italy</td>
-            </tr>
+            {contractdetail.length>0 && contractdetail.map((item,index)=>{
+                return(
+                    <tr key={item.id}>
+                        <td>{item.id}</td>
+                        <td>{item.contract.name}</td>
+                    </tr>
+                )
+            })}
             </table>
         </div>
     );

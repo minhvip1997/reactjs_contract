@@ -10,6 +10,7 @@ function Nav(props) {
             <Link to="/contract">Contact</Link>
             <Link to="/contract/all">All Contract</Link>
             <Link to="/attribute">All Attribute</Link>
+            <Link to="/allpet">All Pet</Link>
         </div>
     );
 }

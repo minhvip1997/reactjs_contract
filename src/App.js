@@ -23,6 +23,8 @@ import EditContract from './Contract/EditContract.js';
 import ListAttribute from './component/List_attribute/list.js';
 import ShowContract from './Employee/ShowContract.js';
 import DetailContract from './Employee/DetailContract.js';
+import AllPet from './component/Pet/AllPet.js';
+import AddPet from './component/Pet/AddPet.js';
 
 const sizeValues = ['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt'];
 const fontValues = ['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana'];
@@ -156,6 +158,12 @@ const callbackFunctionPassword = (childData) => {
           </Route>
           <Route path="/contract/detail/:id">
           <DetailContract/>
+          </Route>
+          <Route path="/allpet">
+          <AllPet/>
+          </Route>
+          <Route path="/pet/add">
+          <AddPet/>
           </Route>
         </Switch>
       

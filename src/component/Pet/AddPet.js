@@ -15,6 +15,9 @@ function AddPet(props) {
       mutation CreateMessage($name: String!, $type: String!, $ownerId: Int!) {
         createPet(createPetInput:{name: $name, type:$type, ownerId: $ownerId}) {
           id
+          name
+          type
+          
         }
       }
       `;
@@ -33,6 +36,8 @@ function AddPet(props) {
     }
 
     const handleOnChangeOwner=(e)=>{
+        console.log(e.target.value);
+        
         setOwnerId(e.target.value);
     }
 
@@ -50,18 +55,20 @@ function AddPet(props) {
 
     const handleSubmit=(event)=>{
         event.preventDefault(); 
-        
+        console.log(name,type,ownerId)
         
         const url = "http://localhost:8000/graphql" ;
-        
+        setName('');
+        setType('');
+        // setOwnerId(1);
         fetch(url,{
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({query: createpet, 
                 variables: {
-                    name,
-                    type,
-                    ownerId
+                    name: name,
+                    type: type,
+                    ownerId: parseInt(ownerId,10)
                   }
             })
         }).then(response=> response.json())

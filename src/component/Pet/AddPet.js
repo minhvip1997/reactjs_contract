@@ -1,32 +1,41 @@
 import { useMutation } from '@apollo/react-hooks';
 import React, { useEffect, useState } from 'react';
-import gql from "graphql-tag";
-
+import {
+    ApolloClient,
+    InMemoryCache,
+    ApolloProvider,
+    useQuery,
+    gql
+  } from "@apollo/client";
+import {getOwn} from './../../graphql-client/queries';
+import {getPet} from './../../graphql-client/queries';
+import {CreatePet} from './../../graphql-client/queries';
 function AddPet(props) {
-    const getownerquery = `
-    {
-        owners{
-          id
-          name
-        }
-      }`;
 
-      const createpet = `
-      mutation CreateMessage($name: String!, $type: String!, $ownerId: Int!) {
-        createPet(createPetInput:{name: $name, type:$type, ownerId: $ownerId}) {
-          id
-          name
-          type
-          
-        }
-      }
-      `;
+    const [owner, setOwner] = useState([]);
+    const {loading, error, data} = useQuery(getOwn);
+    
+    const [AddPet, { dataCreatePet, loadingCreatePet, errorCreatePet }] = useMutation(CreatePet);
+    
+  
     const [name, setName] = useState('');
     const [type, setType] = useState('');
     const [ownerId, setOwnerId] = useState(1);
-    const [ownername, setOwnername] = useState([]);
-    // const [createTodo] = useMutation(createpet);
     
+    useEffect(()=>{
+        if (data) {
+
+            // console.log(data)
+            setOwner(data.owners)
+          }
+    },[data,owner])
+    
+    if (loadingCreatePet) return 'Submitting...';
+
+    if (errorCreatePet) return `Submission error! ${errorCreatePet.message}`;
+    if (loading) return 'Loading...';
+    if (error) return `Error! ${error.message}`;
+
     const handleOnChangeName=(e)=>{
         setName(e.target.value)
     }
@@ -41,39 +50,21 @@ function AddPet(props) {
         setOwnerId(e.target.value);
     }
 
-    useEffect(()=>{
-        const url = "http://localhost:8000/graphql" ;
-        
-        fetch(url,{
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({query: getownerquery})
-        }).then(response=> response.json())
-        .then(data=> setOwnername(data.data.owners))
-    },[])
-
-
     const handleSubmit=(event)=>{
-        event.preventDefault(); 
-        console.log(name,type,ownerId)
-        
-        const url = "http://localhost:8000/graphql" ;
+
+        console.log(owner)
+        event.preventDefault();
         setName('');
         setType('');
-        // setOwnerId(1);
-        fetch(url,{
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({query: createpet, 
-                variables: {
-                    name: name,
-                    type: type,
-                    ownerId: parseInt(ownerId,10)
-                  }
-            })
-        }).then(response=> response.json())
-        .then(data=> console.log('data returned:', data))
+        
+        AddPet({ 
+            variables: { name: name, type: type, ownerId: parseInt(ownerId,10) },
+            refetchQueries: [{query: getPet},{query: getOwn}]
+     })
+        setOwner([])
     }
+    console.log(owner)
+    
 
 
     return (
@@ -85,7 +76,7 @@ function AddPet(props) {
         <input type="text" id="age" name="age" value={type} onChange={(e)=>handleOnChangeType(e)}/><br/><br/>
         <label htmlFor="image">Owner Name:</label>
         <select className="typeentity"  id="cars" onChange={(e)=>handleOnChangeOwner(e)}>
-                {ownername.length>0 && ownername.map((item,index)=>{
+                {owner.map((item,index)=>{
                     return(
                         <option value={item.id} key={item.id}>{item.name}</option>
                     )

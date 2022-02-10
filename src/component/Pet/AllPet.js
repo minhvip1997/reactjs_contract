@@ -1,11 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './AllPet.css';
+import {
+    ApolloClient,
+    InMemoryCache,
+    ApolloProvider,
+    useQuery,
+    gql
+  } from "@apollo/client";
+import {getPet} from './../../graphql-client/queries'
 
 function AllPet() {
 
     const [pet,setPet] = useState([]);
-
+    const {loading, error, data} = useQuery(getPet);
+    
+    if (loading) return 'Loading...';
+    if (error) return `Error! ${error.message}`;
+    
+    console.log(data.pets)
+    
     const getPetquery = `
     {
         pets {
@@ -20,18 +34,19 @@ function AllPet() {
       }
       
     `;
-    useEffect(()=>{
-        const url = "http://localhost:8000/graphql" ;
+    
+    // useEffect(()=>{
+    //     const url = "http://localhost:8000/graphql" ;
         
-        fetch(url,{
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({query: getPetquery})
-        }).then(response=> response.json())
-        .then(data=> setPet(data.data.pets))
+    //     fetch(url,{
+    //         method: "POST",
+    //         headers: {"Content-Type": "application/json"},
+    //         body: JSON.stringify({query: getPetquery})
+    //     }).then(response=> response.json())
+    //     .then(data=> setPet(data.data.pets))
        
-    },[])
-    console.log(pet)
+    // },[])
+    // console.log(pet)
 
     return (
         <div>
@@ -49,13 +64,13 @@ function AllPet() {
                 <th>Type</th>
                 <th>OwnerId</th>
             </tr>
-            {pet.length >0 && pet.map((item,index)=>{
+            { data.pets.map((item,index)=>{
                 return(
                     <tr key={item.id}>
                         <td>{item.id}</td>
                         <td>{item.name}</td>
                         <td>{item.type}</td>
-                        <th>{item.owner.id}</th>
+                        <th>{item.ownerId}</th>
                     </tr>
                 )
                 

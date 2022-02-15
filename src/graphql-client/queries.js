@@ -37,4 +37,12 @@ const CreatePet = gql`
     }
 `;
 
-export {getPet,getOwn,CreatePet};
+const DeletePet = gql`
+    mutation deletPet($id: Int!){
+        deletePet(id: $id){
+        id
+        }
+    }
+`;
+
+export {getPet,getOwn,CreatePet, DeletePet};

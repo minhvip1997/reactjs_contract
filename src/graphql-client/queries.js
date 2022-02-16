@@ -45,4 +45,27 @@ const DeletePet = gql`
     }
 `;
 
-export {getPet,getOwn,CreatePet, DeletePet};
+const GetPetId = gql`
+    query Getpetid($id: Int!){
+        getPet(id: $id){
+        id, name,type
+            owner{
+            id
+            name
+            }
+        }
+    }
+`;
+
+const UpdatePet = gql`
+mutation updatePet($id: Int!,$input: UpdatePetInput!){
+    updatePet(id: $id,updatePetInput:$input){
+     id
+     ownerId
+     name
+     type
+   } 
+   }
+`;
+
+export {getPet,getOwn,CreatePet, DeletePet, GetPetId, UpdatePet};
